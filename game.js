@@ -27,52 +27,54 @@ function randomNumber(gameLevel) {
     }  
     else if (gameLevel > 6 && gameLevel <= 8) {
         return targets + 3;
-    } else {
-        return Nane;
     }
 }
 
-function challenges(amountOfChallenges, cssOfTarget) {
-    var count = 0;
-    
-    const delay = setInterval(function(amountOfChallenges) {
-        
-        /* Animation */
-        $(cssOfTarget).animate({"opacity": 0.5});
+function challengesLogic(amountOfChallenges, cssOfTarget) {
 
-        /* Sound */
-        switch (cssOfTarget) {
-            case "#green":
-                var sound = new Audio("sounds/green.mp3");
-                sound.play();
-                break;
-            case "#red":
-                var sound = new Audio("sounds/red.mp3");
-                sound.play();
-                break;
-            case "#yellow":
-                var sound = new Audio("sounds/yellow.mp3");
-                sound.play();
-                break;
-            case "#blue":
-                var sound = new Audio("sounds/blue.mp3");
-                sound.play();
-                break;
-            default:
-                console.log("Don't was none of the colors. Colors: " + cssOfTarget);
-                break;
+    for (let i=0; i<amountOfChallenges; i++) {
+        var hi = task(i);
         }
-
-        /* Animation */
-        $(cssOfTarget).animate({"opacity": 1});
         
-        /* Delay logic */
-        count ++;
-        if (count == amountOfChallenges) {
-            clearInterval(delay);
-        }
+    function task(i) {
+        setTimeout(function zero() {
 
-    }, 1000);
+            /* Animation */
+            $(cssOfTarget).animate({"opacity": 0.5});
+
+            /* Sound */
+            switch (cssOfTarget) {
+                case "#green":
+                    var sound = new Audio("sounds/green.mp3");
+                    sound.play();
+                    break;
+                case "#red":
+                    var sound = new Audio("sounds/red.mp3");
+                    sound.play();
+                    break;
+                case "#yellow":
+                    var sound = new Audio("sounds/yellow.mp3");
+                    sound.play();
+                    break;
+                case "#blue":
+                    var sound = new Audio("sounds/blue.mp3");
+                    sound.play();
+                    break;
+                default:
+                    console.log("Don't was none of the colors. Colors: " + cssOfTarget);
+                    break;
+            }
+
+            /* Animation */
+            $(cssOfTarget).animate({"opacity": 1});
+
+            return true;
+
+        }, 2000 * i);
+        return true
+    }
+
+    //return true;
 }
 
 
@@ -121,8 +123,20 @@ $(document).on("keypress", function(event) {
             console.log("Target chosed: " + target);
 
             /* Execulting the challenge of the target */
-            challenges(amountOfChallenges, target);
-            console.log("\nChallenge complete!\n");
+            var count = 0;
+            while (true) {
+                if (count === 0) {
+                    var challenges = challengesLogic(amountOfChallenges, target);
+                }
+                else if (challenges === true) {
+                    console.log("Challenge complete!\n");
+                    break;
+                } else if (count > 1000) {
+                    console.log("\nDon'n funct :/\n");
+                    break;
+                }
+                count ++;
+            }
 
             /* Removing target of the list */
             listOfTargets = listOfTargets.filter(function(item) {
@@ -133,4 +147,3 @@ $(document).on("keypress", function(event) {
         break;
     }
 })
-
